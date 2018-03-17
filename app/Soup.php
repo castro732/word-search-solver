@@ -10,6 +10,9 @@ class Soup extends Model
 	protected $width;
 	protected $height;
 
+	/* The constructor takes an id parameter to select the soup.
+	 * This is for simplicity, to not use a DB
+	 */
 	function __construct($id) {
 
 		switch ($id) {
@@ -124,20 +127,27 @@ class Soup extends Model
 		// Return the word found counter
 		return $times_found;
 	}
+	/**
      * Counts how many times a given word appears in a given string
      * and returns how many times it was found.
      *
      * @param  str  $word
      * @return str  $string
+     * @return int 
      */
 	public function countWordInString($word, $string)
 	{
 		$times_found = 0;
+		// Check if the word is in the string
 		$word_position = strpos($string, $word);
+		// If the word is found at least once, iterate over the string to found any other appearance
 		while ($word_position !== FALSE) {
+			// Increment word found counter
 			$times_found++;
+			// Start searching after the last word found
 			$word_position = strpos($string, $word, $word_position+strlen($word));
 		}
+
 		return $times_found;
 	}
 
