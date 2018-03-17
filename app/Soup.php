@@ -122,11 +122,43 @@ class Soup extends Model
 			$column = array_reverse($column);
 			$column_str = implode($column);
 			$times_found += $this->countWordInString($word, $column_str);
-
 		}
 		// Return the word found counter
 		return $times_found;
 	}
+
+	public function diagonalSearch($word)
+	{
+		if ($this->height < strlen($word) || $this->width < strlen($word)) {
+			// If height or width are less than the length of the word, there are no diagonals able to contain said word
+			$times_found = 0;
+		} else if ($this->height === $this->width) {
+			
+			$strings[] = $this->getDiagonals($this->content, strlen($word));
+			
+			// Reversed
+			$reversed_soup = $this->content;
+			foreach ($reversed_soup as &$row) {
+				$row = array_reverse($row);
+			}
+
+			$strings[] = $this->getDiagonals($reversed_soup, strlen($word));
+			$strings = array_merge($strings[0], $strings[1]);
+			$times_found = 0;
+
+			foreach ($strings as $string) {
+				// Convert array to string
+				$real_string = implode($string);
+				$times_found += $this->countWordInString($word, $real_string);
+				// Reverse the string to look in the opposite direction
+				$real_string = implode(array_reverse($string));
+				$times_found += $this->countWordInString($word, $real_string);
+			}
+		}
+
+		return $times_found;
+	}
+
 	/**
      * Counts how many times a given word appears in a given string
      * and returns how many times it was found.
