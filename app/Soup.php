@@ -49,6 +49,11 @@ class Soup extends Model
 				];
 				break;
 
+    		default:
+				$this->content = null;
+    			break;
+    	}
+
     	$this->width = $this->soupWidth();
     	$this->height = $this->soupHeight();
 	}
