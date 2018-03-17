@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 class SoupController extends Controller
 {
 
+	/**
+     * Shows the home view with the soups
+     * Made like this for simplicity, in order to not use a DB
+     *
+     * @return \Illuminate\Http\Response
+     */
 	public function home()
 	{
 		$soup_1 = [
@@ -45,6 +51,14 @@ class SoupController extends Controller
 			'soup_4' => $soup_4,
 		]);
 	}
+
+	/**
+     * Solves the soup of the given $id for the given $word
+     *
+     * @param  int  $id
+     * @param  str  $word
+     * @return \Illuminate\Http\Response
+     */
 	public function solveSoup($id, $word)
 	{
 		$soup = new Soup($id);
