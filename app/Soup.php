@@ -127,6 +127,13 @@ class Soup extends Model
 		return $times_found;
 	}
 
+	/**
+     * Search a given word diagonally in every direction
+     * and returns how many times it was found.
+     *
+     * @param  str  $word
+     * @return int 
+     */
 	public function diagonalSearch($word)
 	{
 		if ($this->height < strlen($word) || $this->width < strlen($word)) {
@@ -134,28 +141,29 @@ class Soup extends Model
 			$times_found = 0;
 		} else if ($this->height === $this->width) {
 			
-			$strings[] = $this->getDiagonals($this->content, strlen($word));
+			// Get all diagonals, from top to bottom and right
+			$diagonals[] = $this->getDiagonals($this->content, strlen($word));
 			
-			// Reversed
+			// Reverse the soup to find reversed diagonals,  from top to bottom and left
 			$reversed_soup = $this->content;
 			foreach ($reversed_soup as &$row) {
 				$row = array_reverse($row);
 			}
 
-			$strings[] = $this->getDiagonals($reversed_soup, strlen($word));
-			$strings = array_merge($strings[0], $strings[1]);
+			$diagonals[] = $this->getDiagonals($reversed_soup, strlen($word));
+			$diagonals = array_merge($diagonals[0], $diagonals[1]);
 			$times_found = 0;
 
-			foreach ($strings as $string) {
+			foreach ($diagonals as $diagonal) {
 				// Convert array to string
-				$real_string = implode($string);
-				$times_found += $this->countWordInString($word, $real_string);
+				$string = implode($diagonal);
+				$times_found += $this->countWordInString($word, $string);
 				// Reverse the string to look in the opposite direction
-				$real_string = implode(array_reverse($string));
-				$times_found += $this->countWordInString($word, $real_string);
+				$string = implode(array_reverse($diagonal));
+				$times_found += $this->countWordInString($word, $string);
 			}
 		}
-
+		// Return the word found counter
 		return $times_found;
 	}
 
