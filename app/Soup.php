@@ -52,6 +52,18 @@ class Soup extends Model
 				];
 				break;
 
+				case 5:
+				$this->content = [
+					['O','X','X'],
+					['I','O','O'],
+					['E','X','X'],
+					['I','I','I'],
+					['O','X','O'],
+					['I','I','E'],
+					['E','X','E'],
+				];
+				break;
+
     		default:
 				$this->content = null;
     			break;
