@@ -140,6 +140,43 @@ class Soup extends Model
 		}
 		return $times_found;
 	}
+	private function getDiagonals($soup, $word_length)
+	{
+		$current_soup = $soup;
+
+		for ($i=0; $i <= $this->width - $word_length; $i++) { 
+			for ($j=0; $j < sizeof($current_soup); $j++) { 
+				$string[] = $current_soup[$j][$j];
+			}
+			$strings[] = $string;
+			$string = [];
+			array_shift($current_soup);
+			foreach ($current_soup as &$row) {
+				array_pop($row);
+			}
+		}
+
+		$current_soup = $soup;
+
+		array_pop($current_soup);
+		foreach ($current_soup as &$row) {
+			array_shift($row);
+		}
+
+		for ($i=1; $i <= $this->width - $word_length; $i++) { 
+			for ($j=0; $j < sizeof($current_soup); $j++) { 
+				$string[] = $current_soup[$j][$j];
+			}
+			$strings[] = $string;
+			$string = [];
+			array_pop($current_soup);
+			foreach ($current_soup as &$row) {
+				array_shift($row);
+			}
+		}
+
+		return $strings;
+	}
 }
 
 
