@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'SoupController@home');
+Route::post('/solve/{id}/{word}', 'SoupController@solveSoup');
