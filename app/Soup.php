@@ -140,42 +140,57 @@ class Soup extends Model
 		}
 		return $times_found;
 	}
+
+	/**
+     * Gets the diagonals of the given matrix (soup), returning the
+     * diagonals that could contain a word of given $word_length
+     *
+     * @param  array  	$soup
+     * @param  int 		$word_length
+     * @return array
+     */
 	private function getDiagonals($soup, $word_length)
 	{
 		$current_soup = $soup;
-
+		// Iterate over the current soup diagonally, in order to find the main diagonal and down
 		for ($i=0; $i <= $this->width - $word_length; $i++) { 
-			for ($j=0; $j < sizeof($current_soup); $j++) { 
-				$string[] = $current_soup[$j][$j];
+			for ($j=0; $j < sizeof($current_soup); $j++) {
+				// Store each element in a new array
+				$diagonal[] = $current_soup[$j][$j];
 			}
-			$strings[] = $string;
-			$string = [];
+			// Store the found diagonal in another array that will contain every other diagonal
+			$diagonals[] = $diagonal;
+			// Clean diagonal array
+			$diagonal = [];
+			// Remove topmost row and rightmost column
 			array_shift($current_soup);
 			foreach ($current_soup as &$row) {
 				array_pop($row);
 			}
 		}
 
+		// Reset current_soup to initial value, to find diagonals from the main and up
 		$current_soup = $soup;
-
+		// As the main diagonal is already stored, remove last row and leftmost column
 		array_pop($current_soup);
 		foreach ($current_soup as &$row) {
 			array_shift($row);
 		}
 
+		// Iterate over starting from 1 - As the main diagonal was already stored
 		for ($i=1; $i <= $this->width - $word_length; $i++) { 
 			for ($j=0; $j < sizeof($current_soup); $j++) { 
-				$string[] = $current_soup[$j][$j];
+				$diagonal[] = $current_soup[$j][$j];
 			}
-			$strings[] = $string;
-			$string = [];
+			$diagonals[] = $diagonal;
+			$diagonal = [];
 			array_pop($current_soup);
 			foreach ($current_soup as &$row) {
 				array_shift($row);
 			}
 		}
-
-		return $strings;
+		// Return all the diagonals found as an array
+		return $diagonals;
 	}
 }
 
