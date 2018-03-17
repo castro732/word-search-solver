@@ -70,6 +70,24 @@ class Soup extends Model
 	{
 		return count($this->content);
 	}
+
+	/**
+     * Search a given word in every direction
+     * and returns how many times it was found.
+     *
+     * @param  str  $word
+     * @return int 
+     */
+	public function find($word)
+	{
+		$times_found = 0;
+		$times_found += $this->horizontalSearch($word);
+		$times_found += $this->verticalSearch($word);
+		$times_found += $this->diagonalSearch($word);
+
+		return $times_found;
+	}
+
 	/**
      * Search a given word horizontally in both directions (left to right, right to left)
      * and returns how many times it was found.
