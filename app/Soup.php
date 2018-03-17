@@ -180,6 +180,48 @@ class Soup extends Model
 				$string = implode(array_reverse($diagonal));
 				$times_found += $this->countWordInString($word, $string);
 			}
+		} else {
+			// If the soup is of the NxM type and the width and height are greater than the length of the word
+			$current_soup = $this->content;
+			$lower = $this->width < $this->height ? $this->width : $this->height;
+			$higher = $this->width > $this->height ? $this->width : $this->height;
+
+			for ($i=0; $i < $higher-($lower-1); $i++) { 
+				for ($j=0; $j < $lower; $j++) {
+					// Store each element in a new array
+					$diagonal[] = $current_soup[$j][$j];
+				}
+				// Store the found diagonal in another array that will contain every other diagonal
+				$diagonals[] = $diagonal;
+				// Clean diagonal array
+				$diagonal = [];
+				// Remove topmost row
+				array_shift($current_soup);
+			}
+
+			$current_soup = array_reverse($this->content);
+			for ($i=0; $i < $higher-($lower-1); $i++) { 
+				for ($j=0; $j < $lower; $j++) {
+					// Store each element in a new array
+					$diagonal[] = $current_soup[$j][$j];
+				}
+				// Store the found diagonal in another array that will contain every other diagonal
+				$diagonals[] = $diagonal;
+				// Clean diagonal array
+				$diagonal = [];
+				// Remove topmost row
+				array_shift($current_soup);
+			}
+
+			$times_found = 0;
+			foreach ($diagonals as $diagonal) {
+				// Convert array to string
+				$string = implode($diagonal);
+				$times_found += $this->countWordInString($word, $string);
+				// Reverse the string to look in the opposite direction
+				$string = implode(array_reverse($diagonal));
+				$times_found += $this->countWordInString($word, $string);
+			}
 		}
 		// Return the word found counter
 		return $times_found;
