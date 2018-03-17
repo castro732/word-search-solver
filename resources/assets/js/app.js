@@ -7,7 +7,7 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+// window.Vue = require('vue');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,8 +15,32 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-const app = new Vue({
-    el: '#app'
+// const app = new Vue({
+//     el: '#app'
+// });
+
+
+$('#soup').on('change', function() {
+	// Hide all soups
+	for (var i = 1; i < 5; i++) {
+		$('[data-soup='+i+']').hide();
+	}
+	// Show selected soup
+	$('[data-soup='+this.value+']').show();
 });
+
+$('#submit').on('click', function() {
+	axios.post(`/solve/${$('#soup').val()}/${$('#word').val()}`)
+	.then(function (response) {
+		if (response.data.found > 0) {
+			$('#times_found').html(response.data.found);
+			$('#found').show();
+			$('#not_found').hide();
+		} else {
+			$('#found').hide();
+			$('#not_found').show();
+		}
+	})
+})
