@@ -19,8 +19,6 @@ class Soup extends Model
 			        ['I','I','X'],
 			        ['E','X','E'],
 			    ];
-
-			    $this->width;
     			break;
 
 			case 2:
@@ -52,6 +50,17 @@ class Soup extends Model
 				break;
 
     	$this->width = $this->soupWidth();
+    	$this->height = $this->soupHeight();
+	}
+
+	public function soupWidth()
+	{
+		return strlen(implode($this->content[0]));
+	}
+
+	public function soupHeight()
+	{
+		return count($this->content);
 	}
 }
 
