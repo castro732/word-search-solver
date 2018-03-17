@@ -67,6 +67,23 @@ class Soup extends Model
 	{
 		return count($this->content);
 	}
+	/**
+     * Counts how many times a given word appears in a given string
+     * and returns how many times it was found.
+     *
+     * @param  str  $word
+     * @return str  $string
+     */
+	public function countWordInString($word, $string)
+	{
+		$times_found = 0;
+		$word_position = strpos($string, $word);
+		while ($word_position !== FALSE) {
+			$times_found++;
+			$word_position = strpos($string, $word, $word_position+strlen($word));
+		}
+		return $times_found;
+	}
 }
 
 
